@@ -15,7 +15,6 @@ class Publish(commands.Cog):
         with open(self.config_path) as json_file: # add path thing
             self.config_data = json.load(json_file)
 
-
     @commands.Cog.listener()
     async def on_message(self,message):
         # Converts important msg properties to strings
@@ -50,3 +49,31 @@ class Publish(commands.Cog):
 
         with open(self.config_path, "w") as outfile:
             json.dump(self.config_data, outfile)
+
+    @app_commands.command(name = "display-channels", description = "Shows the channels that are auto-published")
+    @app_commands.checks.has_any_role('Staff', 'Admin')
+    async def display_channels(self, interaction: Interaction):
+        s = ""
+        s += "Publishing Channels:\n"
+        for channel in self.config_data['announcement_channels']:
+            s += "<#" + str(channel) + ">"
+            s += "\n"
+        
+        s += "Twitch Channels:\n"
+
+        for channel in self.config_data['twitch_announcement_channels']:
+            s += "<#" + str(channel) + ">"
+            s += "\n"
+
+        s += "Youtube Channels:\n"
+
+        for channel in self.config_data['youtube_announcement_channels']:
+            s += "<#" + str(channel) + ">"
+            s += "\n"
+
+        # take away last newline
+        s = s[:-1]
+
+        
+        response = interaction.response
+        await response.send_message(content=s)

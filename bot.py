@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import json
 from cogs.publish import Publish
-from cogs.twitchlisten import TwitchListen
+from cogs.twitch_listen import TwitchListener
 from cogs.uptime import Uptime
 from cogs.yt_listen import YtListener
 from init_start_time import start_time_to_json
@@ -26,14 +26,13 @@ def run_discord_bot():
         print(f'{bot.user} is now running')
         bot.tree.clear_commands(guild=None)
         await bot.add_cog(Publish(bot))
-        await bot.add_cog(TwitchListen(bot))
+        await bot.add_cog(TwitchListener(bot))
         await bot.add_cog(YtListener(bot))
         await bot.add_cog(Uptime(bot))
 
 
         await bot.tree.sync(guild=discord.Object(id=GUILD_ID))
         print('All commands set up!')
-        print(type(GUILD_ID))
         my_guild = bot.get_guild(GUILD_ID)
         print(my_guild)
 

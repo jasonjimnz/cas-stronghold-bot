@@ -50,4 +50,3 @@ class Uptime(commands.Cog):
         seconds_interval = find_time_difference(filepath)
 
         await interaction.response.send_message(content=f'Time since bot was online: {seconds_interval} seconds.')
-
